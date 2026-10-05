@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AR Saturn - Hiro Marker</title>
+<script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+<style>
+body{margin:0;overflow:hidden;font-family:Arial,sans-serif;}
+.controls{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;gap:10px;}
+button{padding:12px 18px;border:none;border-radius:10px;background:#1565C0;color:white;font-size:16px;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="controls">
+<button onclick="increaseSpeed()">🚀 เร็วขึ้น</button>
+<button onclick="decreaseSpeed()">🐢 ช้าลง</button>
+<button onclick="toggleRotation()">⏸️ หยุด/เริ่ม</button>
+</div>
+<a-scene embedded vr-mode-ui="enabled:false" arjs="sourceType: webcam; debugUIEnabled:false;">
+<a-marker preset="hiro">
+<a-entity id="saturnGroup">
+<a-sphere position="0 0.8 0" radius="0.5" color="#D2B48C"></a-sphere>
+<a-torus position="0 0.8 0" radius="0.8" radius-tubular="0.05" color="#C0C0C0" rotation="75 0 0"></a-torus>
+</a-entity>
+</a-marker>
+<a-entity camera></a-entity>
+</a-scene>
+<script>
+let rotationSpeed=1;
+let isRotating=true;
+const saturn=document.querySelector('#saturnGroup');
+let angle=0;
+setInterval(()=>{
+ if(isRotating && saturn){angle+=rotationSpeed;saturn.setAttribute('rotation',`0 ${angle} 0`);}
+},30);
+function increaseSpeed(){rotationSpeed=Math.min(rotationSpeed+0.5,10);}
+function decreaseSpeed(){rotationSpeed=Math.max(rotationSpeed-0.5,0);}
+function toggleRotation(){isRotating=!isRotating;}
+</script>
+</body>
+</html>
